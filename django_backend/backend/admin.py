@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import CustomUser, Patient
+from .models import *
 # Register your models here.
-register = admin.site.register(CustomUser)
 register = admin.site.register(Patient)
+register = admin.site.register(Doctor)
+register = admin.site.register(Cultivator)
+register = admin.site.register(PatientCultivator)
+register = admin.site.register(Relationship)

@@ -4,7 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from .managers import CustomUserManager
 
-# TODO fill atributes and relations
+# TODO fill atributes
+
 
 class CustomUser(AbstractUser):
     username = None
@@ -20,6 +21,7 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
+
 class Patient(CustomUser):
     insurance = models.EmailField(_('Obra Social'))
 
@@ -27,15 +29,38 @@ class Patient(CustomUser):
         verbose_name = _('Paciente')
         verbose_name_plural = _('Pacientes')
 
+
 class Doctor(CustomUser):
-    pass
+
+    class Meta:
+        verbose_name = _('Doctor')
+        verbose_name_plural = _('Doctores')
+
 
 class Cultivator(CustomUser):
-    pass
+
+    class Meta:
+        verbose_name = _('Cultivador')
+        verbose_name_plural = _('Cultivadores')
+
 
 class PatientCultivator(CustomUser):
-    pass
 
-class Interface(models.Model):
-    # many2many
-    pass
+    class Meta:
+        verbose_name = _('Paciente Autocultivador')
+        verbose_name_plural = _('Pacientes Autocultivadores')
+
+
+class Relationship(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True)
+    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True)
+    cultivator = models.ForeignKey(
+        Cultivator, on_delete=models.SET_NULL, null=True)
+    patient_cultivator = models.ForeignKey(
+        PatientCultivator, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        unique_together = (
+            ('patient', 'doctor', 'cultivator', 'patient_cultivator'), )
+        verbose_name = _('Relacion')
+        verbose_name_plural = _('Relaciones')
