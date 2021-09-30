@@ -8,10 +8,9 @@ from .managers import CustomUserManager
 
 
 class CustomUser(AbstractUser):
-    username = None
     email = models.EmailField(_('email address'), unique=True)
     name = models.CharField(max_length=200)
-    date_of_birth = models.DateTimeField(_('Birthday'), null=True)
+    date_of_birth = models.DateTimeField(_('Birthday'), null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -23,7 +22,7 @@ class CustomUser(AbstractUser):
 
 
 class Patient(CustomUser):
-    insurance = models.EmailField(_('Obra Social'))
+    insurance = models.CharField(_('Obra Social'), max_length=200)
 
     class Meta:
         verbose_name = _('Paciente')
