@@ -11,7 +11,7 @@ def remove_params(params):
 
 
 def makeq(type):
-    q = type + '.objects.create(**params)'
+    q = type + '.objects.create_user(**params)'
 
     return q
 
